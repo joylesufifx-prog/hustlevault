@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HustleVault - Career Path</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;background:#fff;color:#10233f}
+.screen{min-height:100vh}
+#home{display:flex;align-items:center;justify-content:center;text-align:center;padding:30px}
+.hero{max-width:850px}
+.logo{font-size:46px;font-weight:900;letter-spacing:-2px}
+.logo span{color:#1769ff}
+.subtitle{font-size:20px;font-weight:700;margin-top:8px}
+.tagline{font-size:28px;font-weight:800;margin:30px 0 12px}
+.small{color:#60708a;font-size:15px}
+button{border:0;border-radius:14px;background:#1769ff;color:#fff;padding:17px 30px;font-size:17px;font-weight:800;cursor:pointer;margin-top:28px}
+button:hover{opacity:.9}
+
+#careers{display:none;padding:45px 6%}
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:35px}
+.header h1{font-size:38px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:22px}
+.card{position:relative;height:260px;border-radius:20px;overflow:hidden;cursor:pointer;background:#dce5f2;box-shadow:0 8px 25px rgba(20,45,80,.12)}
+.card img{width:100%;height:100%;object-fit:cover;display:block;transition:.3s}
+.card:hover img{transform:scale(1.05)}
+.card:after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 35%,rgba(0,0,0,.8))}
+.card h2{position:absolute;z-index:2;bottom:22px;left:20px;color:#fff;font-size:24px}
+
+#lawModal{display:none;position:fixed;inset:0;background:#071426;z-index:10;align-items:center;justify-content:center;padding:20px}
+.lawBox{position:relative;width:min(1000px,96vw);height:min(650px,90vh);border-radius:24px;overflow:hidden;background:#071426;box-shadow:0 20px 70px rgba(0,0,0,.5)}
+.slide{position:absolute;inset:0;opacity:0;transition:opacity .7s}
+.slide.active{opacity:1}
+.slide img{width:100%;height:100%;object-fit:cover}
+.slide:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.72),rgba(0,0,0,.15))}
+.words{position:absolute;z-index:3;left:7%;top:50%;transform:translateY(-50%);max-width:650px;color:white}
+.words .label{font-size:14px;text-transform:uppercase;letter-spacing:3px;font-weight:800;opacity:.8;margin-bottom:15px}
+.words h2{font-size:clamp(32px,5vw,62px);line-height:1.05}
+.close{position:absolute;right:20px;top:18px;z-index:8;width:45px;height:45px;border-radius:50%;background:rgba(255,255,255,.9);color:#10233f;margin:0;padding:0;font-size:24px}
+.progress{position:absolute;z-index:8;bottom:18px;left:7%;right:7%;height:4px;background:rgba(255,255,255,.3);border-radius:5px;overflow:hidden}
+.progress i{display:block;height:100%;width:0;background:#fff}
+.voiceNote{position:absolute;z-index:8;right:7%;bottom:30px;color:#fff;font-size:12px;opacity:.75;text-align:right}
+@media(max-width:600px){.header h1{font-size:28px}.card{height:220px}.lawBox{height:80vh}.words{left:8%;right:8%}}
+
+/* LAW LEARNING PAGE */
+#lawLearn{display:none;min-height:100vh;background:#f6f9fd;padding-bottom:60px}
+.learnTop{background:#fff;padding:28px 6%;border-bottom:1px solid #e4ebf4;position:sticky;top:0;z-index:5}
+.brandPic{display:flex;align-items:center;gap:14px}
+.brandMark{width:54px;height:54px;border-radius:15px;background:linear-gradient(135deg,#1769ff,#10233f);display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;font-weight:900}
+.brandPic h2{font-size:25px}
+.brandPic p{font-size:13px;color:#718096;margin-top:2px}
+.learnHero{max-width:1000px;margin:0 auto;padding:48px 6% 25px}
+.learnHero h1{font-size:clamp(34px,5vw,54px);margin-bottom:12px}
+.learnHero p{color:#60708a;max-width:720px;line-height:1.6}
+.path{max-width:1000px;margin:20px auto 0;padding:0 6%;display:flex;flex-direction:column;gap:13px}
+.pathBtn{width:100%;margin:0;background:#fff;color:#10233f;border:1px solid #dce5f0;border-radius:17px;padding:20px 22px;text-align:left;display:flex;align-items:center;gap:17px;box-shadow:0 5px 18px rgba(20,45,80,.07);transition:.2s}
+.pathBtn:hover{transform:translateY(-2px);border-color:#1769ff}
+.pathNum{min-width:42px;height:42px;border-radius:12px;background:#1769ff;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900}
+.pathBtn strong{display:block;font-size:18px}
+.pathBtn span:last-child{display:block;color:#718096;font-size:13px;margin-top:4px}
+.arrow{margin-left:auto;font-size:22px;color:#1769ff}
+.lesson{display:none;max-width:1000px;margin:25px auto 0;padding:0 6%}
+.lessonBox{background:#fff;border-radius:22px;padding:28px;box-shadow:0 8px 30px rgba(20,45,80,.08)}
+.lessonBox h2{font-size:28px;margin-bottom:12px}
+.lessonBox p{color:#5f7087;line-height:1.65}
+.lessonBox ul{margin:15px 0 0 20px;color:#42546b;line-height:1.8}
+.backLearn{background:#10233f;margin:20px 0 0}
+
+</style>
+</head>
+<body>
+
+<section id="home" class="screen">
+  <div class="hero">
+    <div class="logo">Hustle<span>Vault</span></div>
+    <div class="subtitle">Career Path</div>
+    <div class="tagline">You find every opportunity here.</div>
+    <p class="small">Discover careers, learn what you need, explore study paths, and start planning your future.</p>
+    <button onclick="showCareers()">Explore Careers</button>
+  </div>
+</section>
+
+<section id="careers" class="screen">
+  <div class="header">
+    <div>
+      <div class="logo" style="font-size:30px">Hustle<span>Vault</span></div>
+      <h1>Discover Your Career Path</h1>
+    </div>
+    <button onclick="showHome()" style="margin:0;background:#10233f">Home</button>
+  </div>
+
+  <div class="grid">
+    <div class="card" onclick="openLaw()">
+      <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=1200&q=85" alt="Lawyers in a courtroom">
+      <h2>Law</h2>
+    </div>
+
+    <div class="card"><img src="https://images.unsplash.com/photo-1550831107-1553da8c8464?auto=format&fit=crop&w=1200&q=85" alt="Medical professional"><h2>Medicine</h2></div>
+    <div class="card"><img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=85" alt="Technology"><h2>IT & Technology</h2></div>
+    <div class="card"><img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=85" alt="Engineering"><h2>Engineering</h2></div>
+    <div class="card"><img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=85" alt="Business"><h2>Business & Finance</h2></div>
+    <div class="card"><img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1200&q=85" alt="Education"><h2>Education</h2></div>
+    <div class="card"><img src="https://images.unsplash.com/photo-1561214115-f2f134cc4912?auto=format&fit=crop&w=1200&q=85" alt="Arts and design"><h2>Arts & Design</h2></div>
+    <div class="card"><img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=1200&q=85" alt="Science"><h2>Science & Research</h2></div>
+  </div>
+</section>
+
+<div id="lawModal">
+  <div class="lawBox">
+    <button class="close" onclick="closeLaw()">×</button>
+
+    <div class="slide active">
+      <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=1600&q=90" alt="Professional lawyers">
+      <div class="words"><div class="label">LAW • 01</div><h2>Being a lawyer...</h2></div>
+    </div>
+
+    <div class="slide">
+      <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1600&q=90" alt="Learning and mentoring">
+      <div class="words"><div class="label">LAW • 02</div><h2>is one of the better choices to success.</h2></div>
+    </div>
+
+    <div class="slide">
+      <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1600&q=90" alt="Graduation">
+      <div class="words"><div class="label">LAW • 03</div><h2>Let's empower...</h2></div>
+    </div>
+
+    <div class="slide">
+      <img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1600&q=90" alt="Young professionals">
+      <div class="words"><div class="label">LAW • 04</div><h2>and build our youth.</h2></div>
+    </div>
+
+    <div class="progress"><i id="progressBar"></i></div>
+    <div class="voiceNote">Voice uses your device/browser's available speech voice.</div>
+  </div>
+</div>
+
+<script>
+let timer=null, slideIndex=0;
+const slides=document.querySelectorAll('.slide');
+const textParts=[
+  "Being a lawyer...",
+  "is one of the better choices to success.",
+  "Let's empower...",
+  "and build our youth."
+];
+
+function showCareers(){
+  document.getElementById('home').style.display='none';
+  document.getElementById('careers').style.display='block';
+  window.scrollTo(0,0);
+}
+function showHome(){
+  document.getElementById('careers').style.display='none';
+  document.getElementById('home').style.display='flex';
+}
+function speak(text){
+  if(!('speechSynthesis' in window)) return;
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);
+  u.rate=.9;
+  u.pitch=1.05;
+  const voices=speechSynthesis.getVoices();
+  const preferred=voices.find(v=>/female|samantha|zira|google.*female|aria|jenny/i.test(v.name));
+  if(preferred) u.voice=preferred;
+  speechSynthesis.speak(u);
+}
+function openLaw(){
+  document.getElementById('lawModal').style.display='flex';
+  slideIndex=0;
+  showSlide();
+  clearInterval(timer);
+  timer=setInterval(nextSlide,3200);
+}
+function showSlide(){
+  slides.forEach((s,i)=>s.classList.toggle('active',i===slideIndex));
+  speak(textParts[slideIndex]);
+  const bar=document.getElementById('progressBar');
+  bar.style.transition='none';
+  bar.style.width='0%';
+  setTimeout(()=>{bar.style.transition='width 3.2s linear';bar.style.width='100%';},30);
+}
+function nextSlide(){
+  slideIndex++;
+  if(slideIndex>=slides.length){
+    closeLaw();
+    return;
+  }
+  showSlide();
+}
+function closeLaw(){
+  clearInterval(timer);
+  timer=null;
+  if('speechSynthesis' in window) speechSynthesis.cancel();
+  document.getElementById('lawModal').style.display='none';
+  document.getElementById('careers').style.display='none';
+  document.getElementById('lawLearn').style.display='block';
+  window.scrollTo(0,0);
+}
+
+const lessons = {
+1: {
+ title:"Types of Lawyers",
+ text:"<p>Law has many areas. Examples include:</p><ul><li>Criminal law</li><li>Family law</li><li>Corporate and commercial law</li><li>Constitutional and public law</li><li>Labour and employment law</li><li>Environmental law</li><li>Property and real-estate law</li><li>Human-rights law</li></ul>"
+},
+2: {
+ title:"University & Colleges",
+ text:"<p>Your route depends on the country and legal system you want to enter. Look for accredited institutions that offer recognised law qualifications. Compare entry requirements, course content, costs, location, student support and opportunities for practical experience.</p>"
+},
+3: {
+ title:"Subjects & Requirements",
+ text:"<p>Strong reading, writing, language and analytical skills are useful for law. Admission requirements differ between institutions, so always check the current requirements of the university or college you are interested in.</p>"
+},
+4: {
+ title:"The Law Journey",
+ text:"<p>A typical journey can include finishing school, entering an approved legal programme, completing the required academic and practical training, meeting professional requirements, and then building experience in an area of law.</p>"
+},
+5: {
+ title:"Things You May Encounter",
+ text:"<p>Law can involve large amounts of reading, detailed research, deadlines, difficult questions, public speaking, written arguments and emotionally serious situations. Good organisation and asking for help when needed can make the journey easier.</p>"
+},
+6: {
+ title:"Skills of a Great Lawyer",
+ text:"<p>Work on clear communication, careful listening, critical thinking, research, writing, problem solving, professionalism, teamwork and confidence. These skills can be developed over time.</p>"
+},
+7: {
+ title:"Career Opportunities",
+ text:"<p>Legal careers can include working in private practice, companies, government, courts, non-profit organisations, legal research, compliance and other related fields. Explore different paths and choose goals that match your interests and strengths.</p>"
+}
+};
+
+function lesson(n){
+  document.querySelectorAll(".pathBtn").forEach(b=>b.style.display="none");
+  document.getElementById("lessonTitle").textContent=lessons[n].title;
+  document.getElementById("lessonText").innerHTML=lessons[n].text;
+  document.getElementById("lessonArea").style.display="block";
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function closeLesson(){
+  document.getElementById("lessonArea").style.display="none";
+  document.querySelectorAll(".pathBtn").forEach(b=>b.style.display="flex");
+}
+
+window.speechSynthesis && speechSynthesis.addEventListener('voiceschanged',()=>{});
+</script>
+
+<section id="lawLearn">
+  <div class="learnTop">
+    <div class="brandPic">
+      <div class="brandMark">HV</div>
+      <div>
+        <h2>HustleVault</h2>
+        <p>Career Path • Law</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="learnHero">
+    <h1>Become a Lawyer</h1>
+    <p>Follow the path step by step. Learn about different types of lawyers, university and college routes, what you need to study, and what you may encounter along the way.</p>
+  </div>
+
+  <div class="path">
+    <button class="pathBtn" onclick="lesson(1)"><b class="pathNum">1</b><div><strong>Types of Lawyers</strong><span>Discover the different areas of law and what each lawyer does.</span></div><b class="arrow">›</b></button>
+    <button class="pathBtn" onclick="lesson(2)"><b class="pathNum">2</b><div><strong>University & Colleges</strong><span>Explore where legal studies can take place and what to look for.</span></div><b class="arrow">›</b></button>
+    <button class="pathBtn" onclick="lesson(3)"><b class="pathNum">3</b><div><strong>Subjects & Requirements</strong><span>Learn about school subjects, admission requirements and preparation.</span></div><b class="arrow">›</b></button>
+    <button class="pathBtn" onclick="lesson(4)"><b class="pathNum">4</b><div><strong>The Law Journey</strong><span>Understand the stages from studying law to entering the profession.</span></div><b class="arrow">›</b></button>
+    <button class="pathBtn" onclick="lesson(5)"><b class="pathNum">5</b><div><strong>Things You May Encounter</strong><span>Prepare for reading, research, deadlines, arguments and challenging cases.</span></div><b class="arrow">›</b></button>
+    <button class="pathBtn" onclick="lesson(6)"><b class="pathNum">6</b><div><strong>Skills of a Great Lawyer</strong><span>Build communication, critical thinking, writing, research and confidence.</span></div><b class="arrow">›</b></button>
+    <button class="pathBtn" onclick="lesson(7)"><b class="pathNum">7</b><div><strong>Career Opportunities</strong><span>See where a law qualification can lead and start planning your goals.</span></div><b class="arrow">›</b></button>
+  </div>
+
+  <div id="lessonArea" class="lesson">
+    <div class="lessonBox">
+      <h2 id="lessonTitle"></h2>
+      <div id="lessonText"></div>
+      <button class="backLearn" onclick="closeLesson()">Back to Law Path</button>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
